@@ -9,7 +9,7 @@ using api.Models;
 
 namespace api.Controllers
 {
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -25,9 +25,15 @@ namespace api.Controllers
         var users = _context.Users.ToList().Select(u=>u.ToUserDto());
         return Ok(users);
        }
+       
+       [HttpGet("search/{name}")]
+       public  IActionResult GetUsersStartsWith([FromRoute] string name){
+        
+        var users = _context.Users.Where(u=>u.Name.StartsWith(name)).ToList().Select(u=>u.ToUserDto());
+        return Ok(users);
+       }
 
        [HttpGet("{id}")]
-
        public IActionResult GetUserById([FromRoute] int id){
         var user = _context.Users.Find(id);
         if(user == null){
@@ -58,4 +64,5 @@ namespace api.Controllers
            _context.SaveChanges();
            return Ok(existingUser);
        }
-    }}
+    }
+}

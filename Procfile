@@ -1,0 +1,1 @@
+web: dotnet LoginApi.dll --urls=http://0.0.0.0:$PORT 
